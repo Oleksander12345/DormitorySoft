@@ -13,10 +13,8 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // SSR guard for portal
   useEffect(() => setMounted(true), []);
 
-  // Закрити по Esc
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -24,7 +22,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // Блокування скролу фону
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -32,7 +29,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
     return () => { document.body.style.overflow = prev; };
   }, [open]);
 
-  // Очистити стан при закритті
   useEffect(() => {
     if (!open) setFile(null);
   }, [open]);
@@ -52,7 +48,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
   const onUpload = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Selected file:", file);
-    // onClose(); // за бажанням закривай після успіху
   };
 
   const prettySize = (bytes: number) => {
@@ -68,7 +63,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
       aria-labelledby="import-title"
       className="fixed inset-0 z-[70] flex items-center justify-center p-4"
     >
-      {/* Бекдроп */}
       <button
         aria-hidden
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
@@ -76,7 +70,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
         tabIndex={-1}
       />
 
-      {/* Card (glass) */}
       <div
         className="
           relative w-full max-w-xl
@@ -88,9 +81,8 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.86) 60%, rgba(225,239,254,0.80) 100%)",
         }}
-        onClick={(e) => e.stopPropagation()} // не закривати при кліку всередині
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Хедер */}
         <div className="flex items-start justify-between gap-4 p-5 border-b border-white/30">
           <h2 id="import-title" className="text-xl font-semibold text-slate-900">
             Імпорт студентів
@@ -108,9 +100,7 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
           </button>
         </div>
 
-        {/* Тіло */}
         <form onSubmit={onUpload} className="p-5">
-          {/* Dropzone / file picker */}
           <label
             htmlFor="student-file"
             onDragOver={(e) => e.preventDefault()}
@@ -139,7 +129,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
             </div>
           </label>
 
-          {/* Обраний файл */}
           {file && (
             <div className="mt-4 rounded-lg border border-slate-200 bg-white/90 p-3">
               <p className="text-sm text-slate-800">
@@ -148,7 +137,6 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
             </div>
           )}
 
-          {/* Дії */}
           <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
             <button
               type="button"
@@ -183,6 +171,5 @@ export default function ImportStudentsModal({ open, onClose }: ImportStudentsMod
     </div>
   );
 
-  // Рендер через портал — поверх усього DOM
   return mounted ? createPortal(content, document.body) : null;
 }

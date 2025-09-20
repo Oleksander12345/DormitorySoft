@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,7 +25,6 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      // TODO: заміни на реальний запит:
       await new Promise((r) => setTimeout(r, 500));
       if (username === "admin" && password === "qwerty123") {
         setMsg({ type: "success", text: "Вітаємо! Вхід виконано." });
@@ -44,9 +42,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-blue-100">
       <div className="mx-auto flex min-h-screen max-w-7xl items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-        {/* Легка, ніжна «скляна» картка */}
         <div className="w-full max-w-md rounded-2xl border border-white/60 bg-white/80 p-6 shadow-xl backdrop-blur-xl">
-          {/* Лого/назва */}
           <div className="mb-6 text-center">
             <div className="mx-auto mb-2 grid h-12 w-12 place-items-center rounded-xl bg-blue-400/15 ring-1 ring-blue-200/50">
               <span className="text-xl">🏠</span>
@@ -55,7 +51,6 @@ export default function LoginPage() {
             <p className="text-sm text-slate-600">Увійдіть до системи</p>
           </div>
 
-          {/* Повідомлення */}
           {msg.type && (
             <div
               className={`mb-4 rounded-lg px-3 py-2 text-sm ring-1 ${
@@ -68,7 +63,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Форма */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">

@@ -1,12 +1,11 @@
 "use client";
 import { useMemo, useState } from "react";
 
-/* ---------- Типи ---------- */
 type Kind = { id: number; name: string };
 
 type HistoryRow = {
-  id: number; // автоінкремент для історії
-  date: string; // YYYY-MM-DD
+  id: number; 
+  date: string; 
   op: "issued" | "returned";
   kindId: number;
   kindName: string;
@@ -16,12 +15,9 @@ type HistoryRow = {
 type ActiveRow = {
   kindId: number;
   kindName: string;
-  qty: number; // поточний залишок у студента
+  qty: number; 
 };
 
-/* =================================================================== */
-/*                    Головний блок із двома таблицями                 */
-/* =================================================================== */
 export default function StudentInventorySection({
   kinds = [
     { id: 1, name: "Матрац" },
@@ -40,7 +36,7 @@ export default function StudentInventorySection({
     setActive((prev) => {
       const i = prev.findIndex((r) => r.kindId === kind.id);
       if (i === -1) {
-        if (delta < 0) return prev; // не можемо «повернути» те, чого нема
+        if (delta < 0) return prev; 
         return [...prev, { kindId: kind.id, kindName: kind.name, qty: delta }];
       }
       const next = [...prev];
@@ -88,9 +84,6 @@ export default function StudentInventorySection({
   );
 }
 
-/* =================================================================== */
-/*                          ControlBar (flex)                           */
-/* =================================================================== */
 function ControlBar({
   kinds,
   onIssue,
@@ -111,9 +104,7 @@ function ControlBar({
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      {/* один рядок, усі елементи однакової висоти */}
       <div className="flex flex-wrap items-stretch gap-4">
-        {/* Предмет */}
         <div className="basis-full sm:basis-[220px] md:basis-[260px]">
           <select
             value={kindId}
@@ -126,7 +117,6 @@ function ControlBar({
           </select>
         </div>
 
-        {/* Кількість */}
         <div className="basis-[170px]">
           <div className="h-11 inline-flex w-full items-stretch rounded-md border border-slate-300 bg-white">
             <button
@@ -151,10 +141,8 @@ function ControlBar({
           </div>
         </div>
 
-        {/* Дія + Експорт */}
         <div className="flex-1 min-w-[260px]">
           <div className="flex w-full flex-col gap-3 sm:flex-row">
-            {/* Видати */}
             <label className="relative inline-flex w-full cursor-pointer select-none items-stretch sm:flex-1">
               <input
                 type="checkbox"
@@ -174,7 +162,6 @@ function ControlBar({
               </span>
             </label>
 
-            {/* Повернути */}
             <label className="relative inline-flex w-full cursor-pointer select-none items-stretch sm:flex-1">
               <input
                 type="checkbox"
@@ -194,7 +181,6 @@ function ControlBar({
               </span>
             </label>
 
-            {/* Експорт в Excel */}
             <button
               type="button"
               onClick={() => (onExport ? onExport() : alert("Export to Excel (stub)"))}
@@ -210,19 +196,11 @@ function ControlBar({
   );
 }
 
-
-
-
-/* =================================================================== */
-/*                           Таблиця: Активні                           */
-/* =================================================================== */
-/* ===== Активні ===== */
 function ActiveTable({ rows }: { rows: ActiveRow[] }) {
   const maxBodyH = rows.length > 5 ? 56 * 5 + 52 : undefined; // ≈ 5 рядків + thead
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-sm min-w-[49%]">
-      {/* вертикальний скрол тільки коли треба */}
       <div
         className="relative overflow-x-auto"
         style={maxBodyH ? { maxHeight: maxBodyH, overflowY: "auto" } : undefined}
@@ -257,9 +235,8 @@ function ActiveTable({ rows }: { rows: ActiveRow[] }) {
   );
 }
 
-/* ===== Історія ===== */
 function HistoryTable({ rows }: { rows: HistoryRow[] }) {
-  const maxBodyH = rows.length > 5 ? 56 * 5 + 52 : undefined; // ≈ 5 рядків + thead
+  const maxBodyH = rows.length > 5 ? 56 * 5 + 52 : undefined; 
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-sm min-w-[49%]">

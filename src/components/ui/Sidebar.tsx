@@ -7,7 +7,6 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // Закриття по кліку поза меню / на оверлеї
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!rootRef.current) return;
@@ -17,7 +16,6 @@ export default function Sidebar() {
     return () => document.removeEventListener("click", onDocClick);
   }, []);
 
-  // Esc
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     document.addEventListener("keydown", onKey);
@@ -26,7 +24,6 @@ export default function Sidebar() {
 
   return (
     <div ref={rootRef} className="sb-root">
-      {/* Мобільний бургер (показуємо до 768px) */}
       <button
         type="button"
         className={`sb-burger md:hidden ${open ? "is-open" : ""}`}
@@ -40,7 +37,6 @@ export default function Sidebar() {
         <span className="line" />
       </button>
 
-      {/* Десктопний тригер (як у тебе) */}
       <div
         className={`menu-trigger desktop hidden md:flex ${open ? "is-open" : "is-closed"}`}
         role="button"
@@ -64,7 +60,6 @@ export default function Sidebar() {
 
       
 
-      {/* Бокова панель (працює і з бургером, і з десктоп-тригером) */}
       <nav
         id="side-menu"
         className={`menu ${open ? "is-open" : ""}`}

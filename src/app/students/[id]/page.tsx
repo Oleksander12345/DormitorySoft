@@ -29,7 +29,6 @@ export default function StudentDetailPage() {
   });
 
   const [edit, setEdit] = useState(false);
-  const [issueOpen, setIssueOpen] = useState(false);
   const [evictOpen, setEvictOpen] = useState(false);
   const [returnOpen, setReturnOpen] = useState<null | number>(null);
 
@@ -39,16 +38,13 @@ export default function StudentDetailPage() {
     { id: 3, name: "Рушник", qty: 2, issued: "2025-09-01" },
   ]);
 
-  // next id без перерахунку на кожне додавання
   const nextIdRef = useRef(Math.max(0, ...items.map((i) => i.id)));
   const getNextId = () => {
     nextIdRef.current += 1;
     return nextIdRef.current;
   };
 
-  // ── handlers (стабільні) ────────────────────────────────────────────
   const toggleEdit = useCallback(() => setEdit((v) => !v), []);
-  const closeIssue = useCallback(() => setIssueOpen(false), []);
   const openEvict = useCallback(() => setEvictOpen(true), []);
   const closeEvict = useCallback(() => setEvictOpen(false), []);
   const closeReturn = useCallback(() => setReturnOpen(null), []);
@@ -59,21 +55,11 @@ export default function StudentDetailPage() {
         ...s,
         [field]: field === "course" ? Number(v) || s.course : v,
       })),
-    [student]
-  );
-
-  const handleIssueSubmit = useCallback(
-    ({ item, qty, date }: { item: string; qty: number; date: string }) => {
-      setItems((prev) => [
-        ...prev,
-        { id: getNextId(), name: item, qty, issued: date },
-      ]);
-    },
     []
   );
 
+
   const handleConfirmEvict = useCallback(() => {
-    // TODO: бек-логіка: повернути всі речі, помітити студента як виселеного
     router.push("/");
   }, [router]);
 
@@ -88,11 +74,9 @@ export default function StudentDetailPage() {
     setReturnOpen(null);
   }, [returnOpen]);
 
-  // ── render ──────────────────────────────────────────────────────────
   return (
     <main className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-6xl px-3 py-4 sm:px-6 lg:px-8">
-        {/* Header + summary */}
         <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>

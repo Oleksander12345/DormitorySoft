@@ -6,7 +6,6 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useCombobox } from "downshift";
 
-/* ---------- УНІВЕРСАЛЬНИЙ КОМБОБОКС (Downshift v8) ---------- */
 function ComboBox({
   label,
   items,
@@ -103,7 +102,6 @@ function ComboBox({
   );
 }
 
-/* ------------------------------- PAGE ------------------------------- */
 export default function DormResidentsPage() {
   const [isAddOpen, setAddOpen] = useState(false);
   const [isImportOpen, setImportOpen] = useState(false);
@@ -167,7 +165,6 @@ export default function DormResidentsPage() {
     },
   ];
 
-  /* підказки */
   const nameOptions = useMemo(
     () => Array.from(new Set(residents.map((r) => r.name))),
     [residents]
@@ -200,16 +197,13 @@ export default function DormResidentsPage() {
   return (
     <main className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Заголовок */}
         <div className="mb-6">
           <h1 className="text-center text-2xl font-semibold tracking-tight text-slate-900">
             Список мешканців гуртожитку №8
           </h1>
         </div>
 
-        {/* Панель фільтрів / дій */}
         <div className="mb-4 flex flex-col gap-4">
-          {/* Фільтри */}
           <div className="flex w-full flex-wrap items-end gap-3">
             <ComboBox
               label="Пошук за прізвищем"
@@ -245,7 +239,6 @@ export default function DormResidentsPage() {
             />
           </div>
 
-          {/* Дії */}
           <div className="flex w-full flex-wrap gap-2">
             <button
               onClick={() => setAddOpen(true)}
@@ -278,7 +271,6 @@ export default function DormResidentsPage() {
           onClose={() => setImportOpen(false)}
         />
 
-        {/* Таблиця */}
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="max-h-[60vh] overflow-auto">
             <table className="min-w-full table-fixed border-collapse text-left text-sm">
@@ -297,12 +289,10 @@ export default function DormResidentsPage() {
                 {residents.map((r) => (
                   <tr key={r.id} className="text-center hover:bg-slate-50">
                     <td className="px-4 py-3 text-slate-700">{r.id}</td>
-                    {/* Ім'я/прізвище — по центру */}
                     <td className="px-4 py-3 text-center font-medium text-slate-900">
                       {r.name}
                     </td>
                     <td className="px-4 py-3 text-slate-700">{r.room}</td>
-                    {/* Факультет — вузька колонка + truncate */}
                     <td className="px-4 py-3 text-slate-700">
                       <div className="max-w-full truncate" title={r.faculty}>
                         {r.faculty}
@@ -326,7 +316,6 @@ export default function DormResidentsPage() {
             </table>
           </div>
 
-          {/* Пагінація */}
           <div className="flex items-center justify-center gap-2 border-t border-slate-200 p-3">
             <button
               type="button"

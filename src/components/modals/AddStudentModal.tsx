@@ -23,10 +23,8 @@ export default function AddStudentModal({
   const [mounted, setMounted] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
 
-  // SSR guard for portal
   useEffect(() => setMounted(true), []);
 
-  // Закриття по Esc
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -34,7 +32,6 @@ export default function AddStudentModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // Блокування скролу фону
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -44,7 +41,6 @@ export default function AddStudentModal({
     };
   }, [open]);
 
-  // Автофокус на перше поле
   useEffect(() => {
     if (open) firstInputRef.current?.focus();
   }, [open]);
@@ -58,15 +54,12 @@ export default function AddStudentModal({
       aria-labelledby="add-student-title"
       className="fixed inset-0 z-[70] flex items-center justify-center p-4"
     >
-      {/* Бекдроп */}
       <button
         aria-hidden
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
         onClick={onClose}
         tabIndex={-1}
       />
-
-      {/* Панель */}
       <div
         className="
           relative w-full max-w-xl
@@ -79,9 +72,8 @@ export default function AddStudentModal({
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.86) 60%, rgba(225,239,254,0.80) 100%)",
         }}
-        onClick={(e) => e.stopPropagation()} // не закривати при кліку всередині
+        onClick={(e) => e.stopPropagation()} 
       >
-        {/* Хедер */}
         <div className="flex items-start justify-between gap-4 p-5 border-b border-white/30">
           <div>
             <h2 id="add-student-title" className="text-xl font-semibold text-slate-900">
@@ -105,7 +97,6 @@ export default function AddStudentModal({
           </button>
         </div>
 
-        {/* Форма */}
         <form
           className="p-5"
           onSubmit={(e) => {
@@ -122,7 +113,6 @@ export default function AddStudentModal({
           }}
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* ПІБ */}
             <div className="md:col-span-2">
               <label htmlFor="fullName" className="mb-1 block text-sm font-medium text-slate-800">
                 ПІБ <span className="text-red-500">*</span>
@@ -142,7 +132,6 @@ export default function AddStudentModal({
               />
             </div>
 
-            {/* Кімната */}
             <div>
               <label htmlFor="roomNumber" className="mb-1 block text-sm font-medium text-slate-800">
                 Кімната <span className="text-red-500">*</span>
@@ -161,7 +150,6 @@ export default function AddStudentModal({
               />
             </div>
 
-            {/* Факультет */}
             <div>
               <label htmlFor="faculty" className="mb-1 block text-sm font-medium text-slate-800">
                 Факультет <span className="text-red-500">*</span>
@@ -180,7 +168,6 @@ export default function AddStudentModal({
               />
             </div>
 
-            {/* Курс */}
             <div>
               <label htmlFor="course" className="mb-1 block text-sm font-medium text-slate-800">
                 Курс <span className="text-red-500">*</span>
@@ -201,7 +188,6 @@ export default function AddStudentModal({
               />
             </div>
 
-            {/* Група */}
             <div>
               <label htmlFor="studyGroup" className="mb-1 block text-sm font-medium text-slate-800">
                 Група <span className="text-red-500">*</span>
@@ -221,7 +207,6 @@ export default function AddStudentModal({
             </div>
           </div>
 
-          {/* Футер */}
           <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <button
               type="button"
@@ -252,6 +237,5 @@ export default function AddStudentModal({
     </div>
   );
 
-  // Рендер через портал (щоб не ламалися позиціювання/overflow)
   return mounted ? createPortal(content, document.body) : null;
 }

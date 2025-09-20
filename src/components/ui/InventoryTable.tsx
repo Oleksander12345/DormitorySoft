@@ -2,7 +2,6 @@
 
 import {useCallback, useMemo, useState} from "react";
 
-/* ---------- Типи ---------- */
 type Kind = { id: number; name: string };
 
 type ActiveRow = {
@@ -12,17 +11,15 @@ type ActiveRow = {
 };
 
 type HistoryRow = {
-  id: number;              // локальний автоінкремент
-  date: string;            // YYYY-MM-DD
+  id: number;             
+  date: string;         
   op: "issued" | "returned";
   kindId: number;
   kindName: string;
   qty: number;
 };
 
-/* =================================================================== */
-/*                   ПУБЛІЧНИЙ КОМПОНЕНТ: InventoryTables               */
-/* =================================================================== */
+
 export default function InventoryTables({
   kinds = [
     { id: 1, name: "Матрац" },
@@ -40,7 +37,6 @@ export default function InventoryTables({
   initialHistory?: HistoryRow[];
   onExport?: () => void;
 }) {
-  /* локальний стан (можна підмінити керованим — за потреби) */
   const [active, setActive] = useState<ActiveRow[]>(initialActive);
   const [history, setHistory] = useState<HistoryRow[]>(initialHistory);
   const nextHistoryId = useMemo(
@@ -48,7 +44,6 @@ export default function InventoryTables({
     [history]
   );
 
-  /* оновлення активних */
   const upsertActive = useCallback((kind: Kind, delta: number) => {
     setActive(prev => {
       const i = prev.findIndex(r => r.kindId === kind.id);
@@ -64,7 +59,6 @@ export default function InventoryTables({
     });
   }, []);
 
-  /* додати запис в історію */
   const pushHistory = useCallback((op: HistoryRow["op"], kind: Kind, qty: number) => {
     const row: HistoryRow = {
       id: nextHistoryId,
@@ -77,7 +71,6 @@ export default function InventoryTables({
     setHistory(prev => [row, ...prev]);
   }, [nextHistoryId]);
 
-  /* дії з ControlBar */
   const handleIssue = useCallback((kind: Kind, qty: number) => {
     if (qty <= 0) return;
     upsertActive(kind, +qty);
@@ -94,7 +87,6 @@ export default function InventoryTables({
     <section className="space-y-4">
       <ControlBar kinds={kinds} onIssue={handleIssue} onReturn={handleReturn} onExport={onExport} />
 
-      {/* Дві таблиці в ряд (адаптивно) */}
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex-1 min-w-0">
           <ActiveTable rows={active} />
@@ -107,10 +99,6 @@ export default function InventoryTables({
   );
 }
 
-/* =================================================================== */
-/*                             ControlBar                               */
-/*   (узгоджений з попередньою версією, трохи підчищений і мемоїзований)*/
-/* =================================================================== */
 function ControlBar({
   kinds,
   onIssue,
@@ -133,7 +121,6 @@ function ControlBar({
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-end gap-4">
-        {/* Предмет (звужено) */}
         <div className="basis-full sm:basis-[240px] md:basis-[280px]">
           <div className="mb-1 text-xs font-medium text-slate-600">Предмет</div>
           <select
@@ -147,7 +134,6 @@ function ControlBar({
           </select>
         </div>
 
-        {/* Кількість (фіксована ширина) */}
         <div className="basis-[160px]">
           <div className="mb-1 text-xs font-medium text-slate-600">Кількість</div>
           <div className="inline-flex w-full items-center justify-between rounded-md border border-slate-300 bg-white">
@@ -167,11 +153,9 @@ function ControlBar({
           </div>
         </div>
 
-        {/* Дії + Експорт (розтягуються) */}
         <div className="flex-1 min-w-[260px]">
           <div className="mb-1 text-xs font-medium text-slate-600">Дія</div>
           <div className="flex w-full flex-col gap-3 sm:flex-row">
-            {/* Видати */}
             <button
               type="button"
               onClick={() => selectedKind && onIssue(selectedKind, qty)}
@@ -179,7 +163,6 @@ function ControlBar({
             >
               Видати
             </button>
-            {/* Повернути */}
             <button
               type="button"
               onClick={() => selectedKind && onReturn(selectedKind, qty)}
@@ -187,7 +170,6 @@ function ControlBar({
             >
               Повернути
             </button>
-            {/* Експорт */}
             <button
               type="button"
               onClick={() => (onExport ? onExport() : alert("Export to Excel (stub)"))}
@@ -201,10 +183,6 @@ function ControlBar({
     </div>
   );
 }
-
-/* =================================================================== */
-/*                               Таблиці                                */
-/* =================================================================== */
 
 function ActiveTable({ rows }: { rows: ActiveRow[] }) {
   return (

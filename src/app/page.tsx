@@ -6,12 +6,11 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useCombobox } from "downshift";
 
-/* ---------- Компонент ComboBox (inline label + один ряд) ---------- */
 function ComboBox({
   label,
   items,
   placeholder = "Почніть вводити або оберіть…",
-  className = "w-56", // ширина ПОЛЯ (інпут+кнопка)
+  className = "w-56", 
   inputProps,
   value,
   onChange,
@@ -102,7 +101,6 @@ function ComboBox({
   );
 }
 
-/* ------------------------------- PAGE ------------------------------- */
 export default function DormResidentsPage() {
   const [isAddOpen, setAddOpen] = useState(false);
   const [isImportOpen, setImportOpen] = useState(false);
@@ -205,9 +203,7 @@ export default function DormResidentsPage() {
           </h1>
         </div>
 
-        {/* Панель фільтрів / дій */}
         <div className="mb-4 flex flex-col gap-4">
-          {/* Фільтри — В ОДИН РЯД */}
           <div className="w-full overflow-x-auto">
             <div className="inline-flex flex-nowrap items-center gap-4 whitespace-nowrap">
               <ComboBox
@@ -245,7 +241,6 @@ export default function DormResidentsPage() {
             </div>
           </div>
 
-          {/* Дії */}
           <div className="flex w-full flex-wrap gap-2">
             <button
               onClick={() => setAddOpen(true)}
@@ -278,7 +273,6 @@ export default function DormResidentsPage() {
           onClose={() => setImportOpen(false)}
         />
 
-        {/* Таблиця */}
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="max-h-[60vh] overflow-auto">
             <table className="min-w-full table-fixed border-collapse text-left text-sm">
@@ -324,7 +318,6 @@ export default function DormResidentsPage() {
             </table>
           </div>
 
-          {/* Пагінація */}
           <div className="flex items-center justify-center gap-2 border-t border-slate-200 p-3">
             <button
               type="button"

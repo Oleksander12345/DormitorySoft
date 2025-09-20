@@ -6,9 +6,7 @@ type InfoProps = {
   edit: boolean;
   onChange: (v: string) => void;
   type?: "text" | "number";
-  /** Розтягуватись на 2 колонки в grid (за замовчуванням так) */
   wide?: boolean;
-  /** Додаткові класи для контейнера */
   className?: string;
 };
 

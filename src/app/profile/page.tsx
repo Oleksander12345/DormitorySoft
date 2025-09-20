@@ -5,10 +5,8 @@ export default function ProfilePage() {
     <main className="min-h-screen bg-slate-50 py-10">
       <div className="mx-auto max-w-lg px-4">
 
-        {/* Карточка профілю */}
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col items-center border-b border-slate-200 px-6 py-8">
-            {/* Аватар */}
             <div className="relative">
               <div className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-50 via-sky-50 to-emerald-50 p-1 ring-1 ring-slate-200 shadow">
                 <div className="flex h-full w-full items-center justify-center rounded-full bg-white">
@@ -17,12 +15,10 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Ім'я та email */}
             <h2 className="mt-4 text-lg font-semibold text-slate-900">Admin User</h2>
             <p className="text-slate-600">admin@example.com</p>
           </div>
 
-          {/* Зміна пароля */}
           <div className="border-t border-slate-200 px-6 py-5">
             <h3 className="mb-4 text-lg font-semibold text-blue-700">Change Password</h3>
             <form className="space-y-4">

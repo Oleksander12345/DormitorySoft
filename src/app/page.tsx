@@ -1,10 +1,10 @@
 "use client";
 
-import AddStudentModal from "@/components/AddStudentModal";
-import ImportStudentsModal from "@/components/ImportStudentsModal";
+import AddStudentModal from "@/components/modals/AddStudentModal";
+import ImportStudentsModal from "@/components/modals/ImportStudentsModal";
 import * as React from "react";
-import {useMemo, useState} from "react";
-import {useCombobox} from "downshift";
+import { useMemo, useState } from "react";
+import { useCombobox } from "downshift";
 
 /* ---------- Компонент ComboBox (inline label + один ряд) ---------- */
 function ComboBox({
@@ -39,18 +39,21 @@ function ComboBox({
     items: filtered,
     initialSelectedItem: value ?? undefined,
     itemToString: (item) => item ?? "",
-    onInputValueChange({inputValue}) {
+    onInputValueChange({ inputValue }) {
       const q = (inputValue ?? "").toLowerCase().trim();
-      setFiltered(q ? items.filter(i => i.toLowerCase().includes(q)) : items);
+      setFiltered(q ? items.filter((i) => i.toLowerCase().includes(q)) : items);
     },
-    onSelectedItemChange({selectedItem}) {
+    onSelectedItemChange({ selectedItem }) {
       onChange?.(selectedItem ?? "");
     },
   });
 
   return (
     <div className="relative flex flex-none items-center gap-2">
-      <label className="shrink-0 text-sm font-medium text-slate-700" {...getLabelProps()}>
+      <label
+        className="shrink-0 text-sm font-medium text-slate-700"
+        {...getLabelProps()}
+      >
         {label}
       </label>
 
@@ -89,7 +92,9 @@ function ComboBox({
               </li>
             ))}
           {isOpen && filtered.length === 0 && (
-            <li className="px-3 py-2 text-sm text-slate-500">Нічого не знайдено</li>
+            <li className="px-3 py-2 text-sm text-slate-500">
+              Нічого не знайдено
+            </li>
           )}
         </ul>
       </div>
@@ -103,20 +108,92 @@ export default function DormResidentsPage() {
   const [isImportOpen, setImportOpen] = useState(false);
 
   const residents = [
-    { id: 1, name: "Іваненко Іван Іванович", room: "101", faculty: "ФІОТ", course: 3, group: "ІН-31" },
-    { id: 2, name: "Петров Петро Петрович", room: "102", faculty: "ІПСА", course: 2, group: "ЕК-22" },
-    { id: 3, name: "Сидоренко Ольга Миколаївна", room: "103", faculty: "ФММ", course: 1, group: "IC-12" },
-    { id: 4, name: "Коваль Андрій Сергійович", room: "104", faculty: "ФІОТ", course: 4, group: "ФФ-21" },
-    { id: 5, name: "Мороз Оксана Володимирівна", room: "105", faculty: "ФІОТ", course: 4, group: "ФЛ-11" },
-    { id: 6, name: "Приклад Студент", room: "105", faculty: "ФІОТ", course: 3, group: "ФЛ-11" },
-    { id: 7, name: "Приклад Студент", room: "105", faculty: "ФІОТ", course: 3, group: "ФЛ-11" },
+    {
+      id: 1,
+      name: "Іваненко Іван Іванович",
+      room: "101",
+      faculty: "ФІОТ",
+      course: 3,
+      group: "ІН-31",
+    },
+    {
+      id: 2,
+      name: "Петров Петро Петрович",
+      room: "102",
+      faculty: "ІПСА",
+      course: 2,
+      group: "ЕК-22",
+    },
+    {
+      id: 3,
+      name: "Сидоренко Ольга Миколаївна",
+      room: "103",
+      faculty: "ФММ",
+      course: 1,
+      group: "IC-12",
+    },
+    {
+      id: 4,
+      name: "Коваль Андрій Сергійович",
+      room: "104",
+      faculty: "ФІОТ",
+      course: 4,
+      group: "ФФ-21",
+    },
+    {
+      id: 5,
+      name: "Мороз Оксана Володимирівна",
+      room: "105",
+      faculty: "ФІОТ",
+      course: 4,
+      group: "ФЛ-11",
+    },
+    {
+      id: 6,
+      name: "Приклад Студент",
+      room: "105",
+      faculty: "ФІОТ",
+      course: 3,
+      group: "ФЛ-11",
+    },
+    {
+      id: 7,
+      name: "Приклад Студент",
+      room: "105",
+      faculty: "ФІОТ",
+      course: 3,
+      group: "ФЛ-11",
+    },
   ];
 
-  const nameOptions   = useMemo(() => Array.from(new Set(residents.map(r => r.name))), [residents]);
-  const roomOptions   = useMemo(() => Array.from(new Set(residents.map(r => r.room))).concat(["201","202","203","301","302"]), [residents]);
+  const nameOptions = useMemo(
+    () => Array.from(new Set(residents.map((r) => r.name))),
+    [residents]
+  );
+  const roomOptions = useMemo(
+    () =>
+      Array.from(new Set(residents.map((r) => r.room))).concat([
+        "201",
+        "202",
+        "203",
+        "301",
+        "302",
+      ]),
+    [residents]
+  );
   const facultyOptions = ["ФІОТ", "ІПСА", "ФММ", "ФТІ", "ФПМ", "ФЕЛ", "ФБМІ"];
-  const courseOptions  = ["1","2","3","4","5","6"];
-  const groupOptions   = useMemo(() => Array.from(new Set(residents.map(r => r.group))).concat(["ІН-31","ЕК-22","IC-12","ФФ-21","ФЛ-11"]), [residents]);
+  const courseOptions = ["1", "2", "3", "4", "5", "6"];
+  const groupOptions = useMemo(
+    () =>
+      Array.from(new Set(residents.map((r) => r.group))).concat([
+        "ІН-31",
+        "ЕК-22",
+        "IC-12",
+        "ФФ-21",
+        "ФЛ-11",
+      ]),
+    [residents]
+  );
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -220,10 +297,14 @@ export default function DormResidentsPage() {
                 {residents.map((r) => (
                   <tr key={r.id} className="text-center hover:bg-slate-50">
                     <td className="px-4 py-3 text-slate-700">{r.id}</td>
-                    <td className="px-4 py-3 text-center font-medium text-slate-900">{r.name}</td>
+                    <td className="px-4 py-3 text-center font-medium text-slate-900">
+                      {r.name}
+                    </td>
                     <td className="px-4 py-3 text-slate-700">{r.room}</td>
                     <td className="px-4 py-3 text-slate-700">
-                      <div className="max-w-full truncate" title={r.faculty}>{r.faculty}</div>
+                      <div className="max-w-full truncate" title={r.faculty}>
+                        {r.faculty}
+                      </div>
                     </td>
                     <td className="px-4 py-3 text-slate-700">{r.course}</td>
                     <td className="px-4 py-3 text-slate-700">{r.group}</td>
@@ -245,11 +326,33 @@ export default function DormResidentsPage() {
 
           {/* Пагінація */}
           <div className="flex items-center justify-center gap-2 border-t border-slate-200 p-3">
-            <button type="button" className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" aria-label="Попередня сторінка">‹</button>
-            {["1","2","3","4"].map((n,i)=>(
-              <button key={n} type="button" className={`inline-flex h-8 w-8 items-center justify-center rounded-md border ${i===0 ? "border-blue-600 bg-blue-600 text-white" : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100"}`}>{n}</button>
+            <button
+              type="button"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+              aria-label="Попередня сторінка"
+            >
+              ‹
+            </button>
+            {["1", "2", "3", "4"].map((n, i) => (
+              <button
+                key={n}
+                type="button"
+                className={`inline-flex h-8 w-8 items-center justify-center rounded-md border ${
+                  i === 0
+                    ? "border-blue-600 bg-blue-600 text-white"
+                    : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+                }`}
+              >
+                {n}
+              </button>
             ))}
-            <button type="button" className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" aria-label="Наступна сторінка">›</button>
+            <button
+              type="button"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+              aria-label="Наступна сторінка"
+            >
+              ›
+            </button>
           </div>
         </div>
       </div>
